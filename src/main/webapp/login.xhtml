@@ -8,9 +8,15 @@
       template="WEB-INF/templates/template.xhtml">
     
     <ui:define name="content">
-    	<h:form>
-    		<h:commandButton value="Logout" action="#{loginBean.logout}"/>
-    	</h:form>
+   		<h:form>
+   			<h:panelGrid columns="1">
+   				<h:inputText value="#{loginBean.username}" required="true"
+   					requiredMessage="Username required"/>
+   				<h:inputSecret value="#{loginBean.password}" required="true"
+   					requiredMessage="Password required"/>
+   				<h:commandButton value="Login" action="#{loginBean.login}" />	
+   			</h:panelGrid>
+   		</h:form>
     </ui:define>
     
 </ui:composition>
