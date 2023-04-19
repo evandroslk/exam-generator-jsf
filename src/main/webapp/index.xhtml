@@ -10,6 +10,8 @@
     <ui:define name="content">
     	<h:form>
     		<h:commandButton value="Logout" action="#{loginBean.logout}"/>
+    		<h:commandButton value="CheckProfessor" 
+    			actionListener="#{testeBean.checkProfessor}"/>
     	</h:form>
     </ui:define>
     

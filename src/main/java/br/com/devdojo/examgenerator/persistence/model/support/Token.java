@@ -1,4 +1,4 @@
-package br.com.devdojo.examgenerator.persistence.model;
+package br.com.devdojo.examgenerator.persistence.model.support;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
