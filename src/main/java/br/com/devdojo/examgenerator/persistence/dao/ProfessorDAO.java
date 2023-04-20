@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import br.com.devdojo.examgenerator.annotation.ExceptionHandler;
 import br.com.devdojo.examgenerator.persistence.model.Professor;
 import br.com.devdojo.examgenerator.util.JsonUtil;
 
@@ -25,6 +26,7 @@ public class ProfessorDAO implements Serializable {
 		this.jsonUtil = jsonUtil;
 	}
 
+	@ExceptionHandler
 	public Professor getProfessorById(long id) {
 		ResponseEntity<Professor> professorEntity = new RestTemplate()
 				.exchange(BASE_URL+"/1", HttpMethod.GET,

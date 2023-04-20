@@ -42,7 +42,7 @@ public class TokenUtil {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
 				.withZone(ZoneId.of("UTC"));
 		LocalDateTime tokenExpirationTime = LocalDateTime.parse(CustomURLEncoder.decodeUTF8(expirationTime), formatter);
-		return LocalDateTime.now().isBefore(tokenExpirationTime);
+		return LocalDateTime.now(ZoneId.of("UTC")).isBefore(tokenExpirationTime);
 	}
 
 }

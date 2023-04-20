@@ -12,6 +12,7 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import br.com.devdojo.examgenerator.annotation.ExceptionHandler;
@@ -37,7 +38,8 @@ public class ExceptionInterceptor implements Serializable {
 		try {
 			result = context.proceed();
 		} catch (Exception e) {
-			if (e instanceof HttpClientErrorException) {
+			if (e instanceof HttpClientErrorException || 
+					e instanceof HttpServerErrorException) {
 				HttpStatusCodeException httpException = (HttpStatusCodeException) e;
 				ErrorDetail errorDetail = new CustomObjectMapper().readValue(httpException.getResponseBodyAsString(),
 						ErrorDetail.class);
