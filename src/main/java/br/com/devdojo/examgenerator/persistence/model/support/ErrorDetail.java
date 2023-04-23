@@ -2,9 +2,12 @@ package br.com.devdojo.examgenerator.persistence.model.support;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorDetail implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -16,6 +19,7 @@ public class ErrorDetail implements Serializable {
 	private String message;
 	private String path;
 	private String exception;
+	private List<Errors> errors;
 
 	public LocalDateTime getTimestamp() {
 		return timestamp;
@@ -23,6 +27,14 @@ public class ErrorDetail implements Serializable {
 
 	public void setTimestamp(LocalDateTime timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public List<Errors> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(List<Errors> errors) {
+		this.errors = errors;
 	}
 
 	public int getStatus() {

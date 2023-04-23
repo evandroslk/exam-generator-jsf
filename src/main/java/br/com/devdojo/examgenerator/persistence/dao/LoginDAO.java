@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import br.com.devdojo.examgenerator.annotation.ExceptionHandler;
 import br.com.devdojo.examgenerator.custom.CustomRestTemplate;
 import br.com.devdojo.examgenerator.persistence.model.support.Token;
+import br.com.devdojo.examgenerator.util.APIUtil;
 import br.com.devdojo.examgenerator.util.JsonUtil;
 
 public class LoginDAO implements Serializable {
@@ -20,9 +21,7 @@ public class LoginDAO implements Serializable {
 	private final CustomRestTemplate restTemplate;
 
 	private JsonUtil jsonUtil;
-
-	private final String BASE_URL = "http://localhost:8085/login";
-
+	
 	@Inject
 	public LoginDAO(CustomRestTemplate restTemplate, JsonUtil jsonUtil) {
 		this.restTemplate = restTemplate;
@@ -32,7 +31,7 @@ public class LoginDAO implements Serializable {
 	@ExceptionHandler
 	public Token loginReturningToken(String username, String password) {
 		String loginJson = "{\"username\":" + addQuotes(username) + ",\"password\":" + addQuotes(password) + "}";
-		ResponseEntity<Token> tokenExchange = restTemplate.exchange(BASE_URL, HttpMethod.POST,
+		ResponseEntity<Token> tokenExchange = restTemplate.exchange(APIUtil.LOGIN_URL, HttpMethod.POST,
 				new HttpEntity<>(loginJson, jsonUtil.createJsonHeader()), Token.class);
 		return tokenExchange.getBody();
 	}
