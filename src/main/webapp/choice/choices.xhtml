@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      template="../WEB-INF/templates/template.xhtml">
+    
+    <ui:define name="content">
+    	
+    	<f:metadata>
+    		<f:viewParam name="questionId" value="#{choiceBean.questionId}"
+    			required="true" requiredMessage="Use the links to get here" />
+    		<f:viewAction action="#{choiceBean.init()}"/>
+    	</f:metadata>
+    	
+    	<o:form id="form" includeRequestParams="true">
+    		<h3><h:outputText value="Question: #{choiceBean.question.title}"/></h3>
+    		<h:panelGrid columns="1">
+    			<h:outputLabel value="Title"/>
+		    	<p:inputText value="#{choiceBean.choice.title}"/>
+		    	<h:outputLabel value="Is this the correct answer?"/>
+		    	<p:selectBooleanButton value="#{choiceBean.choice.correctAnswer}" offLabel="No" 
+		    		onLabel="Yes" onIcon="ui-icon-check" offIcon="ui-icon-close">
+		    	</p:selectBooleanButton>
+		    	<p:commandButton actionListener="#{choiceBean.save}"
+		    		ajax="true" update="form" value="Create choice"/>
+	    	</h:panelGrid>
+    	
+    		<p:remoteCommand name="onRowEdit" update="dataTable"/>
+    		
+	    	<p:dataTable value="#{choiceBean.choiceList}" var="choice" id="dataTable"
+	    		editable="true">
+	    		<p:ajax event="rowEdit" listener="#{choiceBean.onRowEditUpdateChoice}"
+	    			oncomplete="onRowEdit()" />
+	    		
+	    		<p:column headerText="Choice title">
+	    			<p:cellEditor>
+	    				<f:facet name="output">
+	    					<h:outputText value="#{choice.title}"/>
+	    				</f:facet>
+	    				<f:facet name="input">
+	    					<p:inputText value="#{choice.title}"/>
+	    				</f:facet>
+	    			</p:cellEditor>
+	    		</p:column> 
+	    		
+	    		<p:column headerText="Correct answer">
+	    			<p:cellEditor>
+	    				<f:facet name="output">
+	    					<h:outputText value="#{choice.correctAnswer}"/>
+	    				</f:facet>
+	    				<f:facet name="input">
+	    					<p:selectOneMenu value="#{choice.correctAnswer}">
+	    						<f:selectItem itemValue="#{true}" itemLabel="True"/>
+	    						<f:selectItem itemValue="#{false}" itemLabel="False"/>
+	    					</p:selectOneMenu>
+	    				</f:facet>
+	    			</p:cellEditor>
+	    		</p:column> 
+	    		
+	    		<p:column style="width:32px">
+	    			<p:rowEditor />
+	    		</p:column>
+	    		
+	    		<p:column style="width:32px">
+	    			<p:commandLink action="#{choiceBean.delete(choice)}" update="dataTable">
+	    				<i class="fa fa-trash"/>
+	    				<p:confirm header="Confirmation" message="Are you sure?"
+	    					icon="ui-icon-alert"/>
+	    			</p:commandLink>
+	    		</p:column>
+	    		
+	    	</p:dataTable>
+	    	
+	    	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+	    		<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+	    			icon="ui-icon-check"/>
+	    		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+	    			icon="ui-icon-close"/>
+	    	</p:confirmDialog>
+	    	
+    	</o:form>
+    </ui:define>
+    
+</ui:composition>

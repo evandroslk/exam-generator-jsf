@@ -8,13 +8,13 @@
       template="WEB-INF/templates/template.xhtml">
     
     <ui:define name="content">
-    	<h:panelGrid columns="1">
-    		<h:link value="Courses" outcome="course/list"/>
-    	</h:panelGrid>
     	<h:form>
-    		<h:commandButton value="Logout" action="#{loginBean.logout}"/>
-    		<h:commandButton value="CheckProfessor" 
+    		<h:panelGrid columns="3">
+    			<p:commandButton value="Courses" action="course/list" ajax="false" />
+    			<p:commandButton value="Logout" action="#{loginBean.logout}"/>
+    			<p:commandButton value="CheckProfessor" 
     			actionListener="#{testeBean.checkProfessor}"/>
+    		</h:panelGrid>
     	</h:form>
     </ui:define>
     

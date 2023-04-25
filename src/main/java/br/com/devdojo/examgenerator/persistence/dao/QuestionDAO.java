@@ -5,13 +5,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.devdojo.examgenerator.annotation.ExceptionHandler;
 import br.com.devdojo.examgenerator.custom.CustomRestTemplate;
-import br.com.devdojo.examgenerator.custom.CustomTypeReference;
 import br.com.devdojo.examgenerator.persistence.model.Question;
 import br.com.devdojo.examgenerator.util.APIUtil;
 import br.com.devdojo.examgenerator.util.JsonUtil;
@@ -26,14 +26,13 @@ public class QuestionDAO implements Serializable {
 	
 	private final CustomRestTemplate restTemplate;
 	private final JsonUtil jsonUtil;
-	private final CustomTypeReference<List<Question>> listQuestionTypeReference;
+	private final ParameterizedTypeReference<List<Question>> questionListTypeReference = 
+			new ParameterizedTypeReference<List<Question>>() {};
 	
 	@Inject
-	public QuestionDAO(CustomRestTemplate restTemplate, JsonUtil jsonUtil, 
-			CustomTypeReference<List<Question>> listQuestionTypeReference) {
+	public QuestionDAO(CustomRestTemplate restTemplate, JsonUtil jsonUtil) {
 		this.restTemplate = restTemplate;
 		this.jsonUtil = jsonUtil;
-		this.listQuestionTypeReference = listQuestionTypeReference;
 	}
 	
 	@ExceptionHandler
@@ -41,7 +40,7 @@ public class QuestionDAO implements Serializable {
 		UriComponents url = UriComponentsBuilder.fromUriString(LIST_URL).queryParam("title", title).build();
 		return restTemplate.exchange(url.toUriString(), HttpMethod.GET, 
 				jsonUtil.tokenizedEntityHeader(), 
-				listQuestionTypeReference.typeReference(), courseId).getBody();
+				questionListTypeReference, courseId).getBody();
 	}
 
 	@ExceptionHandler

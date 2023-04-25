@@ -7,7 +7,8 @@
       xmlns:p="http://primefaces.org/ui">
       
 <h:head>
-
+	<link rel="stylesheet" 
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </h:head>
 
 <h:body>
@@ -19,6 +20,14 @@
 		<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true"/>
 		<ui:insert name="content">
 		</ui:insert>
+		
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+		
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" 
+			showHeader="false">
+			<p:graphicImage name="/images/loader.gif"/>
+		</p:dialog>
+		
 	</div>
 	
 	<div id="footer">
